@@ -3,112 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoTrace.io | Global Supply Chain 100+ Data</title>
+    <title>EcoTrace.io | Global Supply Chain Dashboard</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        :root { --primary-teal: #16a085; --dark-navy: #243444; }
-        body { font-family: 'Open Sans', sans-serif; background-color: #f0f4f3; color: var(--dark-navy); }
+        :root { --primary-teal: #16a085; --dark-navy: #243444; --premium-gold: #d4af37; }
+        body { font-family: 'Open Sans', sans-serif; background-color: #f8fafb; color: var(--dark-navy); }
         h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; }
         
+        /* NAVBAR */
         .navbar { background-color: var(--dark-navy); border-bottom: 4px solid var(--primary-teal); }
-        .search-section { background: white; padding: 20px 0; border-bottom: 1px solid #ddd; position: sticky; top: 70px; z-index: 100; }
-        .search-bar { border-radius: 30px; border: 2px solid var(--primary-teal); padding: 12px 25px; }
-
-        /* KOTAK KATALOG */
-        .catalog-container { height: 600px; overflow-y: scroll; padding: 15px; background: #e9eeed; border-radius: 15px; }
-        .product-card { border: none; border-radius: 12px; transition: 0.3s; cursor: pointer; background: white; overflow: hidden; border-bottom: 4px solid transparent; }
-        .product-card:hover { transform: translateY(-5px); border-bottom-color: var(--primary-teal); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-        .card-img-top { height: 110px; object-fit: cover; background: #eee; }
         
-        /* FORM & TABLE */
-        .form-panel { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); position: sticky; top: 180px; }
-        .log-container { background: white; border-radius: 15px; overflow: hidden; margin-top: 30px; }
+        /* SEARCH AREA */
+        .search-hero { background: white; padding: 40px 0; border-bottom: 1px solid #eee; }
+        .search-bar { border-radius: 40px; border: 2px solid #ddd; padding: 15px 30px; transition: 0.3s; }
+        .search-bar:focus { border-color: var(--primary-teal); box-shadow: 0 0 15px rgba(22, 160, 133, 0.1); outline: none; }
+
+        /* FEATURED SECTION */
+        .featured-header { border-left: 5px solid var(--premium-gold); padding-left: 15px; margin-bottom: 25px; }
+        .featured-card { border: 2px solid var(--premium-gold) !important; position: relative; overflow: hidden; }
+        .featured-badge { position: absolute; top: 10px; right: -30px; background: var(--premium-gold); color: white; padding: 5px 40px; transform: rotate(45deg); font-size: 0.6rem; font-weight: bold; }
+
+        /* PRODUCT CARDS */
+        .product-card { border: none; border-radius: 15px; transition: 0.3s; cursor: pointer; background: white; border: 1px solid transparent; }
+        .product-card:hover { transform: translateY(-8px); border-color: var(--primary-teal); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
+        .card-img-top { height: 120px; object-fit: cover; border-radius: 15px 15px 0 0; }
+        
+        /* SIDEBAR FORM */
+        .verification-panel { background: white; border-radius: 20px; padding: 30px; position: sticky; top: 100px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
+        .id-badge { background: #fff5f5; color: #e74c3c; border: 1px solid #ffcfcf; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-dark py-3 sticky-top">
+    <nav class="navbar navbar-dark sticky-top shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#"><i class="fa-solid fa-leaf text-success me-2"></i>EcoTrace Global <span class="badge bg-warning text-dark ms-2" style="font-size: 0.6rem;">BIG DATA V2.0</span></a>
-            <div class="text-white d-none d-md-block small">
-                <i class="fa-solid fa-user-shield me-2 text-info"></i>Murni Agustina Andini | 25120100018
+            <a class="navbar-brand fw-bold" href="#">
+                <i class="fa-solid fa-earth-asia text-success me-2"></i>EcoTrace Global Hub
+            </a>
+            <div class="text-white d-none d-md-block small opacity-75">
+                <i class="fa-solid fa-id-badge me-2 text-info"></i>Murni Agustina Andini (25120100018)
             </div>
         </div>
     </nav>
 
-    <div class="search-section shadow-sm">
-        <div class="container text-center">
-            <h4 class="fw-bold mb-3 small text-uppercase" style="letter-spacing: 2px;">Global Commodity Search Engine</h4>
-            <div class="row justify-content-center">
-                <div class="col-md-8 position-relative">
-                    <input type="text" id="mainSearch" onkeyup="filterProcess()" class="form-control search-bar" placeholder="Cari 100 Komoditas (Contoh: Matcha, Jepang, Rempah, Elektronik...)">
-                    <i class="fa-solid fa-magnifying-glass position-absolute" style="right: 30px; top: 18px; color: var(--primary-teal);"></i>
+    <section class="search-hero shadow-sm">
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-md-8">
+                    <h2 class="fw-800 mb-4">Global Commodity Marketplace</h2>
+                    <div class="position-relative">
+                        <input type="text" id="searchInput" onkeyup="globalSearch()" class="form-control search-bar" placeholder="Cari 100+ komoditas, negara asal, atau kategori...">
+                        <i class="fa-solid fa-magnifying-glass position-absolute" style="right: 30px; top: 22px; color: #aaa;"></i>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
     <main class="container my-5">
-        <div class="row g-4">
+        <div class="row g-5">
             
             <div class="col-lg-8">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="fw-bold m-0"><i class="fa-solid fa-boxes-stacked me-2"></i>Total Komoditas: <span id="count" class="text-primary">100</span></h5>
-                </div>
                 
-                <div class="catalog-container shadow-inner" id="grid">
+                <div id="featuredSection">
+                    <div class="featured-header">
+                        <h4 class="fw-bold m-0 text-uppercase" style="letter-spacing: 1px;">Premium Archipelago Origin</h4>
+                        <small class="text-muted">Produk unggulan dengan standar verifikasi tertinggi</small>
                     </div>
-
-                <div class="log-container shadow">
-                    <div class="p-3 bg-dark text-white d-flex justify-content-between align-items-center">
-                        <h6 class="m-0 fw-bold"><i class="fa-solid fa-clock-rotate-left me-2 text-success"></i>SYNCED DATABASE RECORDS</h6>
-                        <button class="btn btn-sm btn-success" onclick="alert('Exporting to Excel...')">Export Data</button>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-hover align-middle mb-0" style="font-size: 0.8rem;">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Batch ID</th>
-                                    <th>Produk</th>
-                                    <th>Origin</th>
-                                    <th>Keunggulan</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="logTable">
-                                </tbody>
-                        </table>
-                    </div>
+                    <div class="row g-3 mb-5" id="featuredGrid">
+                        </div>
                 </div>
+
+                <h4 class="fw-bold mb-4"><i class="fa-solid fa-globe me-2 text-primary"></i>Global Marketplace Hub</h4>
+                <div class="row g-3" id="mainGrid" style="max-height: 600px; overflow-y: auto; padding-right: 10px;">
+                    </div>
             </div>
 
             <div class="col-lg-4">
-                <div class="form-panel border-top border-4 border-success">
-                    <h5 class="fw-bold mb-4">Verifikasi Transaksi</h5>
-                    <form id="tradeForm">
+                <div class="verification-panel">
+                    <h5 class="fw-bold mb-4 border-bottom pb-3"><i class="fa-solid fa-file-shield me-2 text-success"></i>Verification Center</h5>
+                    <form id="vForm">
                         <div class="mb-3">
-                            <label class="form-label small fw-bold">Komoditas & Kategori</label>
-                            <input type="text" id="vName" class="form-control bg-light fw-bold" readonly placeholder="Pilih dari katalog">
-                            <input type="text" id="vCat" class="form-control bg-light mt-1 small" readonly>
+                            <label class="form-label small fw-bold">Selected Commodity</label>
+                            <input type="text" id="vName" class="form-control bg-light fw-bold" readonly placeholder="Pilih produk...">
                         </div>
                         <div class="mb-3">
-                            <label class="form-label small fw-bold">Negara Asal</label>
+                            <label class="form-label small fw-bold">Global Origin</label>
                             <input type="text" id="vOrigin" class="form-control bg-light" readonly>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label small fw-bold">Volume Ekspor (Ton)</label>
-                            <input type="number" id="volume" class="form-control border-success" placeholder="0">
+                            <label class="form-label small fw-bold">Volume (Metric Tons)</label>
+                            <input type="number" id="vVol" class="form-control border-primary" placeholder="Masukkan berat">
                         </div>
-                        <div class="p-3 rounded-3 bg-light border mb-4">
-                            <small class="fw-bold text-muted">Feature Highlight:</small>
-                            <p id="vFeat" class="small mb-0 text-dark" style="font-style: italic;">Data belum dimuat...</p>
+                        <div class="p-3 bg-light rounded-3 mb-4 border border-dashed">
+                            <small class="text-muted d-block mb-1">Standard Highlights:</small>
+                            <p id="vDetail" class="small mb-0 fw-600">Klik salah satu produk untuk melihat detail spesifikasi perdagangan.</p>
                         </div>
-                        <button type="button" onclick="syncDB()" class="btn btn-dark w-100 py-3 fw-bold rounded-3">
-                            SYNC TO DATABASE <i class="fa-solid fa-cloud-arrow-up ms-2"></i>
+                        <button type="button" onclick="finalizeTransaction()" class="btn btn-dark w-100 py-3 fw-bold shadow-sm">
+                            SYNC TO BLOCKCHAIN <i class="fa-solid fa-link ms-2"></i>
                         </button>
                     </form>
                 </div>
@@ -117,37 +113,14 @@
         </div>
     </main>
 
-    <footer class="py-4 text-center text-muted bg-white border-top mt-5">
-        <small><strong>EcoTrace Global Hub</strong> &copy; 2026 Murni Agustina Andini - Cakrawala University</small>
+    <footer class="py-5 text-center bg-white border-top">
+        <p class="text-muted small">&copy; 2026 Murni Agustina Andini - Cakrawala University | EcoTrace.io Enterprise MVP</p>
     </footer>
 
     <script>
-        // SISTEM GAMBAR BERDASARKAN KATEGORI (STABIL & ANTI HILANG)
-        const imgMap = {
-            "Dedaunan": "https://images.unsplash.com/photo-1544787210-2213d2429f3b?q=80&w=300",
-            "Herbal": "https://images.unsplash.com/photo-1515442261904-6c301f11c0ee?q=80&w=300",
-            "Minuman": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=300",
-            "Rempah": "https://images.unsplash.com/photo-1509358271058-acd22cc93898?q=80&w=300",
-            "Pangan": "https://images.unsplash.com/photo-1532336414038-cf19250c5757?q=80&w=300",
-            "Bahan Pangan": "https://images.unsplash.com/photo-1532336414038-cf19250c5757?q=80&w=300",
-            "Protein": "https://images.unsplash.com/photo-1551028340-419670135823?q=80&w=300",
-            "Seafood": "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?q=80&w=300",
-            "Teknologi": "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=300",
-            "Elektronik": "https://images.unsplash.com/photo-1550009158-9ebf69173e03?q=80&w=300",
-            "Fashion": "https://images.unsplash.com/photo-1524380365003-32824e3e346d?q=80&w=300",
-            "Tekstil": "https://images.unsplash.com/photo-1524380365003-32824e3e346d?q=80&w=300",
-            "Aksesori": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=300",
-            "Diary": "https://images.unsplash.com/photo-1550583724-125581fe2f8a?q=80&w=300",
-            "Kosmetik": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=300",
-            "Kecantikan": "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?q=80&w=300",
-            "Buah": "https://images.unsplash.com/photo-1610832958506-aa56338406cd?q=80&w=300",
-            "Snack": "https://images.unsplash.com/photo-1599490659213-e2b9527bb087?q=80&w=300"
-        };
-        const defaultImg = "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=300";
-
-        // DATABASE 100 ITEM MURNI
-        const murniData = [
-            "1,Daun Matcha,Dedaunan,Jepang,Grade seremonial, antioksidan tinggi",
+        // MASTER DATABASE (100+ DATA MURNI)
+        const masterData = [
+            "1,Biji Kopi Gayo,Minuman,Indonesia,Grade seremonial, antioksidan tinggi",
             "2,Biji Kopi Arabika,Minuman,Brasil,Profil rasa nutty dan cokelat",
             "3,Saffron,Rempah,Iran,Kualitas stigma terbaik di dunia",
             "4,Minyak Zaitun,Bahan Pangan,Italia,Extra Virgin, cold-pressed",
@@ -249,72 +222,92 @@
             "100,Robot Industri,Manufaktur,Jepang,Otomasi presisi tinggi"
         ];
 
-        const products = murniData.map(line => {
+        // KONVERSI DATA KE ARRAY OF OBJECTS
+        const items = masterData.map(line => {
             const p = line.split(',');
-            return { id: p[0], nama: p[1], kat: p[2], asal: p[3], fitur: p[4] };
+            return { id: p[0], nama: p[1], kat: p[2], asal: p[3], detail: p[4] };
         });
 
-        function render(data) {
-            const grid = document.getElementById('grid');
+        const imgLib = {
+            "Minuman": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=300",
+            "Rempah": "https://images.unsplash.com/photo-1509358271058-acd22cc93898?q=80&w=300",
+            "Pangan": "https://images.unsplash.com/photo-1532336414038-cf19250c5757?q=80&w=300",
+            "default": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=300"
+        };
+
+        // RENDER FUNGSI
+        function renderView(filter = "") {
+            const grid = document.getElementById('mainGrid');
+            const featuredGrid = document.getElementById('featuredGrid');
             grid.innerHTML = "";
-            data.forEach(item => {
-                const img = imgMap[item.kat] || defaultImg;
+            featuredGrid.innerHTML = "";
+
+            // 1. Render Featured (Indonesian Special) - Hanya muncul kalau tidak sedang mencari
+            if(filter === "") {
+                const indos = items.filter(i => i.asal === "Indonesia").slice(0, 4);
+                indos.forEach(i => {
+                    featuredGrid.innerHTML += `
+                        <div class="col-6 col-md-3">
+                            <div class="card product-card featured-card h-100" onclick="selectItem('${i.nama}')">
+                                <div class="featured-badge">TOP</div>
+                                <img src="${imgLib[i.kat] || imgLib.default}" class="card-img-top">
+                                <div class="card-body p-2">
+                                    <span class="id-badge fw-bold">Archipelago Premium</span>
+                                    <h6 class="fw-bold mb-0 mt-1" style="font-size:0.8rem;">${i.nama}</h6>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                document.getElementById('featuredSection').style.display = "block";
+            } else {
+                document.getElementById('featuredSection').style.display = "none";
+            }
+
+            // 2. Render Main Global Hub
+            const filtered = items.filter(i => 
+                i.nama.toLowerCase().includes(filter.toLowerCase()) || 
+                i.asal.toLowerCase().includes(filter.toLowerCase())
+            );
+
+            filtered.forEach(i => {
+                const isIndo = i.asal === "Indonesia" ? '<span class="id-badge ms-1">Premium Origin</span>' : '';
                 grid.innerHTML += `
-                    <div class="col-6 col-md-3 mb-2 px-1">
-                        <div class="product-card shadow-sm h-100" onclick="loadItem('${item.nama}')">
-                            <img src="${img}" class="card-img-top" onerror="this.src='${defaultImg}'">
-                            <div class="p-2">
-                                <span class="badge bg-light text-dark border small" style="font-size:0.6rem;">${item.asal}</span>
-                                <h6 class="fw-bold mb-0 mt-1" style="font-size:0.75rem;">${item.nama}</h6>
+                    <div class="col-6 col-md-4 col-xl-3">
+                        <div class="card product-card shadow-sm h-100" onclick="selectItem('${i.nama}')">
+                            <div class="p-3">
+                                <small class="text-primary fw-bold">${i.asal}</small> ${isIndo}
+                                <h6 class="fw-bold mb-1 mt-1" style="font-size:0.85rem;">${i.nama}</h6>
+                                <p class="text-muted small mb-0" style="font-size:0.7rem;">${i.kat}</p>
                             </div>
                         </div>
                     </div>
                 `;
             });
-            document.getElementById('count').innerText = data.length;
         }
 
-        function filterProcess() {
-            const key = document.getElementById('mainSearch').value.toLowerCase();
-            const filtered = products.filter(p => 
-                p.nama.toLowerCase().includes(key) || 
-                p.asal.toLowerCase().includes(key) || 
-                p.kat.toLowerCase().includes(key)
-            );
-            render(filtered);
+        function globalSearch() {
+            renderView(document.getElementById('searchInput').value);
         }
 
-        function loadItem(name) {
-            const p = products.find(i => i.nama === name);
-            document.getElementById('vName').value = p.nama;
-            document.getElementById('vCat').value = "Category: " + p.kat;
-            document.getElementById('vOrigin').value = p.asal;
-            document.getElementById('vFeat').innerText = p.fitur;
-            alert("Sistem: Data " + name + " berhasil dimuat ke Form Verifikasi.");
+        function selectItem(name) {
+            const item = items.find(i => i.nama === name);
+            document.getElementById('vName').value = item.nama;
+            document.getElementById('vOrigin').value = item.asal;
+            document.getElementById('vDetail').innerText = item.detail;
+            alert("Sistem: Data " + name + " berhasil dimuat ke Verification Center.");
         }
 
-        function syncDB() {
-            const name = document.getElementById('vName').value;
-            const vol = document.getElementById('volume').value;
-            if(!name || !vol) { alert("Data tidak lengkap!"); return; }
-
-            const p = products.find(i => i.nama === name);
-            const batch = "#TRX-" + Math.floor(Math.random()*9000+1000);
-            const table = document.getElementById('logTable');
-            const row = table.insertRow(0);
-            row.innerHTML = `
-                <td><small class="fw-bold">${batch}</small></td>
-                <td>${name}</td>
-                <td><span class="badge bg-info text-dark">${p.asal}</span></td>
-                <td style="font-size:0.7rem;">${p.fitur.substring(0,30)}...</td>
-                <td><span class="text-success small fw-bold">SYNCED</span></td>
-            `;
-            alert("Murni, transaksi " + batch + " telah tersimpan aman di database!");
-            document.getElementById('tradeForm').reset();
-            document.getElementById('vFeat').innerText = "Data belum dimuat...";
+        function finalizeTransaction() {
+            const n = document.getElementById('vName').value;
+            const v = document.getElementById('vVol').value;
+            if(!n || !v) { alert("Lengkapi data verifikasi!"); return; }
+            alert("SUCCESS: Transaksi " + n + " sebanyak " + v + " Ton telah ter-verifikasi aman!");
+            document.getElementById('vForm').reset();
+            document.getElementById('vDetail').innerText = "Klik salah satu produk untuk melihat detail spesifikasi perdagangan.";
         }
 
-        render(products);
+        renderView();
     </script>
 </body>
 </html>

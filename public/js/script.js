@@ -1,118 +1,109 @@
-// ==========================================
-// MVP ARCHITECTURE: BUSINESS LOGIC & UI (Sesi 3)
-// ==========================================
-
-// 1. TEMPORARY DATABASE (Product Data Array Simulation)
-const dataProduk = [
-    { id: 1, nama: "Origin Traceability Report", harga: 150, icon: "fa-map-location-dot" },
-    { id: 2, nama: "Carbon Footprint Audit", harga: 120, icon: "fa-leaf" },
-    { id: 3, nama: "EUDR Compliance Cert", harga: 200, icon: "fa-certificate" }
+// 1. Database 100 Produk Unggulan Indonesia (Versi Lengkap)
+const produkTambahan = [
+    { id: 1, nama: "Daun Kelor (Moringa)", kategori: "Herbal", asal: "NTT", keunggulan: "Superfood nutrisi tertinggi", harga: 25000, stok: 50 },
+    { id: 2, nama: "Daun Nilam", kategori: "Atsiri", asal: "Aceh & Sulawesi", keunggulan: "Pengikat parfum dunia", harga: 150000, stok: 20 },
+    { id: 3, nama: "Daun Sirsak Kering", kategori: "Herbal", asal: "Jawa Tengah", keunggulan: "Alternatif kanker alami", harga: 35000, stok: 100 },
+    { id: 4, nama: "Daun Teh Hitam", kategori: "Dedaunan", asal: "Kayu Aro (Jambi)", keunggulan: "Teh kualitas ekspor ke Inggris", harga: 45000, stok: 80 },
+    { id: 5, nama: "Daun Pandan Kering", kategori: "Dedaunan", asal: "Jawa Barat", keunggulan: "Pewarna & aroma alami", harga: 15000, stok: 200 },
+    { id: 6, nama: "Daun Salam Koja", kategori: "Rempah", asal: "Sumatra Utara", keunggulan: "Bumbu autentik Asia", harga: 10000, stok: 150 },
+    { id: 7, nama: "Daun Stevia", kategori: "Pemanis", asal: "Tawangmangu", keunggulan: "Pemanis alami rendah kalori", harga: 55000, stok: 40 },
+    { id: 8, nama: "Kopi Arabika Gayo", kategori: "Minuman", asal: "Aceh", keunggulan: "Aroma earthy & body kuat", harga: 120000, stok: 30 },
+    { id: 9, nama: "Kopi Luwak", kategori: "Minuman", asal: "Lampung/Jawa", keunggulan: "Proses fermentasi unik", harga: 500000, stok: 10 },
+    { id: 10, nama: "Biji Kakao (Cokelat)", kategori: "Bahan Baku", asal: "Sulawesi Tengah", keunggulan: "Cokelat premium dunia", harga: 85000, stok: 60 },
+    { id: 11, nama: "Minyak Kelapa Sawit (CPO)", kategori: "Industri", asal: "Riau/Kalimantan", keunggulan: "Produsen terbesar di dunia", harga: 20000, stok: 1000 },
+    { id: 12, nama: "Karet Alam", kategori: "Industri", asal: "Sumatra Selatan", keunggulan: "Kualitas standar ban", harga: 30000, stok: 500 },
+    { id: 13, nama: "Sarang Burung Walet", kategori: "Kesehatan", asal: "Kalimantan", keunggulan: "Komoditas ekspor termahal", harga: 20000000, stok: 5 },
+    { id: 14, nama: "Kayu Manis", kategori: "Rempah", asal: "Kerinci (Jambi)", keunggulan: "Aroma manis rapi", harga: 70000, stok: 45 },
+    { id: 15, nama: "Cengkeh", kategori: "Rempah", asal: "Maluku", keunggulan: "King of Spices", harga: 110000, stok: 55 },
+    { id: 16, nama: "Lada Putih Muntok", kategori: "Rempah", asal: "Bangka Belitung", keunggulan: "Pedas & aroma khas", harga: 95000, stok: 40 },
+    { id: 17, nama: "Pala (Nutmeg)", kategori: "Rempah", asal: "Banda (Maluku)", keunggulan: "Kualitas biji terbaik", harga: 130000, stok: 35 },
+    { id: 18, nama: "Vanila Organik", kategori: "Rempah", asal: "Papua/NTT", keunggulan: "Aroma creamy tinggi", harga: 2500000, stok: 8 },
+    { id: 19, nama: "Minyak Kelapa Dara (VCO)", kategori: "Kesehatan", asal: "Sulawesi Utara", keunggulan: "Asam laurat tinggi", harga: 65000, stok: 70 },
+    { id: 20, nama: "Arang Batok Kelapa", kategori: "Industri", asal: "Sulawesi/Jawa", keunggulan: "Bahan briket terbaik", harga: 12000, stok: 300 },
+    { id: 21, nama: "Minyak Atsiri Sereh Wangi", kategori: "Atsiri", asal: "Jawa Barat", keunggulan: "Bahan sabun alami", harga: 80000, stok: 25 },
+    { id: 22, nama: "Gula Aren (Palm Sugar)", kategori: "Pemanis", asal: "Lebak/Cianjur", keunggulan: "Indeks glikemik rendah", harga: 35000, stok: 90 },
+    { id: 23, nama: "Batik Tulis", kategori: "Fashion", asal: "Solo/Pekalongan", keunggulan: "Warisan budaya dunia", harga: 1500000, stok: 15 },
+    { id: 24, nama: "Tenun Ikat", kategori: "Fashion", asal: "NTT/Sumba", keunggulan: "Pewarna alami filosofis", harga: 2500000, stok: 10 },
+    { id: 25, nama: "Mebel Kayu Jati", kategori: "Furniture", asal: "Jepara", keunggulan: "Ukiran tangan presisi", harga: 5000000, stok: 7 },
+    { id: 26, nama: "Rotan", kategori: "Furniture", asal: "Cirebon/Katingan", keunggulan: "Pemasok 80% dunia", harga: 200000, stok: 40 },
+    { id: 27, nama: "Buah Manggis", kategori: "Buah", asal: "Jawa Barat", keunggulan: "Queen of Fruits", harga: 30000, stok: 100 },
+    { id: 28, nama: "Salak Pondoh", kategori: "Buah", asal: "Sleman (DIY)", keunggulan: "Renyah & manis awet", harga: 20000, stok: 120 },
+    { id: 29, nama: "Nanas Madu", kategori: "Buah", asal: "Pemalang/Subang", keunggulan: "Rasa sangat manis", harga: 15000, stok: 150 },
+    { id: 30, nama: "Buah Naga Merah", kategori: "Buah", asal: "Banyuwangi", keunggulan: "Warna cerah alami", harga: 25000, stok: 80 },
+    { id: 31, nama: "Minyak Kayu Putih", kategori: "Kesehatan", asal: "Ambon/Buru", keunggulan: "Kadar sineol murni", harga: 45000, stok: 60 },
+    { id: 32, nama: "Teh Putih (White Tea)", kategori: "Minuman", asal: "Ciwidey", keunggulan: "Pucuk daun termuda", harga: 150000, stok: 25 },
+    { id: 33, nama: "Udang Vaname", kategori: "Seafood", asal: "Lampung/Jatim", keunggulan: "Budidaya intensif", harga: 85000, stok: 200 },
+    { id: 34, nama: "Ikan Tuna (Yellowfin)", kategori: "Seafood", asal: "Maluku/Bitung", keunggulan: "Kualitas sashimi", harga: 120000, stok: 40 },
+    { id: 35, nama: "Kepiting Bakau", kategori: "Seafood", asal: "Papua", keunggulan: "Daging padat jumbo", harga: 180000, stok: 30 },
+    { id: 36, nama: "Rumput Laut", kategori: "Pangan", asal: "Sulawesi Selatan", keunggulan: "Bahan agar-agar", harga: 15000, stok: 500 },
+    { id: 37, nama: "Batu Bara", kategori: "Pertambangan", asal: "Kalsel/Sumsel", keunggulan: "Kadar kalori beragam", harga: 1000000, stok: 1000 },
+    { id: 38, nama: "Nikel", kategori: "Pertambangan", asal: "Sulawesi Tenggara", keunggulan: "Bahan utama baterai EV", harga: 500000, stok: 800 },
+    { id: 39, nama: "Tembaga", kategori: "Pertambangan", asal: "Papua", keunggulan: "Konduktivitas tinggi", harga: 90000, stok: 600 },
+    { id: 40, nama: "Timah", kategori: "Pertambangan", asal: "Bangka", keunggulan: "Pemasok utama elektronik", harga: 250000, stok: 400 },
+    { id: 41, nama: "Pasir Silika", kategori: "Industri", asal: "Belitung", keunggulan: "Bahan kaca & panel surya", harga: 5000, stok: 2000 },
+    { id: 42, nama: "Kerajinan Perak", kategori: "Aksesori", asal: "Kotagede", keunggulan: "Detail handmade rumit", harga: 350000, stok: 20 },
+    { id: 43, nama: "Sepatu Kulit", kategori: "Fashion", asal: "Cibaduyut", keunggulan: "Kualitas setara Eropa", harga: 450000, stok: 50 },
+    { id: 44, nama: "Mie Instan", kategori: "Olahan", asal: "Nasional", keunggulan: "Merek populer dunia", harga: 3500, stok: 5000 },
+    { id: 45, nama: "Santan Kemasan", kategori: "Olahan", asal: "Riau", keunggulan: "Proses UHT segar", harga: 12000, stok: 300 },
+    { id: 46, nama: "Krupuk Udang", kategori: "Olahan", asal: "Sidoarjo", keunggulan: "Gurih tanpa pengawet", harga: 25000, stok: 100 },
+    { id: 47, nama: "Tempe Organik", kategori: "Pangan", asal: "Jawa", keunggulan: "Plant-based protein", harga: 15000, stok: 150 },
+    { id: 48, nama: "Kacang Mete", kategori: "Snack", asal: "Wonogiri/Flores", keunggulan: "Biji besar & utuh", harga: 130000, stok: 40 },
+    { id: 49, nama: "Minyak Cengkeh", kategori: "Industri", asal: "Jawa Tengah", keunggulan: "Antiseptik alami", harga: 95000, stok: 35 },
+    { id: 50, nama: "Getah Pinus", kategori: "Industri", asal: "Jawa", keunggulan: "Bahan baku cat & tinta", harga: 25000, stok: 400 },
+    { id: 51, nama: "Daun Pisang Klutuk", kategori: "Dedaunan", asal: "Jawa", keunggulan: "Lentur & kuat", harga: 5000, stok: 1000 },
+    { id: 52, nama: "Daun Jati Kering", kategori: "Dedaunan", asal: "Blora", keunggulan: "Kemasan ramah lingkungan", harga: 2000, stok: 2000 },
+    { id: 53, nama: "Daun Ketapang", kategori: "Akuarium", asal: "Kalimantan", keunggulan: "Penstabil pH air", harga: 10000, stok: 500 },
+    { id: 54, nama: "Bunga Krisan", kategori: "Florikultura", asal: "Tomohon", keunggulan: "Warna cerah tahan layu", harga: 35000, stok: 100 },
+    { id: 55, nama: "Bunga Anggrek", kategori: "Florikultura", asal: "Jawa Timur", keunggulan: "Spesies paling eksotis", harga: 75000, stok: 80 },
+    { id: 56, nama: "Monstera Variegata", kategori: "Florikultura", asal: "Jawa", keunggulan: "Varietas harga tinggi", harga: 500000, stok: 10 },
+    { id: 57, nama: "Pupuk Urea", kategori: "Pertanian", asal: "Palembang", keunggulan: "Standar industri global", harga: 10000, stok: 2000 },
+    { id: 58, nama: "Semen Indonesia", kategori: "Konstruksi", asal: "Gresik", keunggulan: "Standar internasional", harga: 60000, stok: 1000 },
+    { id: 59, nama: "Kertas Fotokopi", kategori: "Industri", asal: "Jambi/Riau", keunggulan: "Putih & ramah lingkungan", harga: 50000, stok: 500 },
+    { id: 60, nama: "Tisu Bambu", kategori: "Industri", asal: "Jawa", keunggulan: "Alternatif ramah lingkungan", harga: 15000, stok: 300 },
+    { id: 61, nama: "Baju Muslim", kategori: "Fashion", asal: "Bandung/Jakarta", keunggulan: "Kiblat modest fashion", harga: 250000, stok: 100 },
+    { id: 62, nama: "Tas Anyaman Pandan", kategori: "Aksesori", asal: "Tasikmalaya", keunggulan: "Etnik modern", harga: 120000, stok: 60 },
+    { id: 63, nama: "Sepatu Olahraga", kategori: "Fashion", asal: "Tangerang", keunggulan: "Produksi merek global", harga: 350000, stok: 150 },
+    { id: 64, nama: "Komponen Otomotif", kategori: "Industri", asal: "Bekasi", keunggulan: "Ekspor suku cadang", harga: 150000, stok: 500 },
+    { id: 65, nama: "Kapal Pinisi", kategori: "Manufaktur", asal: "Bulukumba", keunggulan: "Kapal kayu legendaris", harga: 500000000, stok: 2 },
+    { id: 66, nama: "Garam Industri", kategori: "Pangan", asal: "Madura", keunggulan: "Kadar NaCl tinggi", harga: 8000, stok: 1000 },
+    { id: 67, nama: "Minyak Jahe Gajah", kategori: "Atsiri", asal: "Jawa Tengah", keunggulan: "Ekstrak farmasi", harga: 110000, stok: 40 },
+    { id: 68, nama: "Kunyit Bubuk", kategori: "Rempah", asal: "Jawa Tengah", keunggulan: "Kurkumin tinggi", harga: 40000, stok: 100 },
+    { id: 69, nama: "Temulawak", kategori: "Kesehatan", asal: "Jawa Tengah", keunggulan: "Obat asli Indonesia", harga: 30000, stok: 120 },
+    { id: 70, nama: "Kapulaga Jawa", kategori: "Rempah", asal: "Jawa Barat", keunggulan: "Aroma lembut", harga: 180000, stok: 30 },
+    { id: 71, nama: "Bunga Kemuning", kategori: "Herbal", asal: "Jawa", keunggulan: "Bahan kecantikan", harga: 20000, stok: 50 },
+    { id: 72, nama: "Minyak Kayu Manis", kategori: "Atsiri", asal: "Sumatra", keunggulan: "Aromaterapi kuat", harga: 130000, stok: 25 },
+    { id: 73, nama: "Minyak Akar Wangi", kategori: "Atsiri", asal: "Garut", keunggulan: "Kualitas ke-2 di dunia", harga: 200000, stok: 20 },
+    { id: 74, nama: "Ikan Arwana Super Red", kategori: "Hewan", asal: "Kalimantan", keunggulan: "Ikan keberuntungan", harga: 15000000, stok: 5 },
+    { id: 75, nama: "Ikan Cupang", kategori: "Hewan", asal: "Jakarta", keunggulan: "Variasi tercantik", harga: 50000, stok: 200 },
+    { id: 76, nama: "Mutiara Laut Selatan", kategori: "Perhiasan", asal: "Lombok", keunggulan: "Warna gold langka", harga: 5000000, stok: 15 },
+    { id: 77, nama: "Batu Mulia (Akik)", kategori: "Perhiasan", asal: "Banten", keunggulan: "Motif unik", harga: 250000, stok: 50 },
+    { id: 78, nama: "Cangkang Kelapa Sawit", kategori: "Energi", asal: "Sumatra", keunggulan: "Bahan bakar biomassa", harga: 2000, stok: 5000 },
+    { id: 79, nama: "Bungkil Kedelai", kategori: "Pakan", asal: "Jawa", keunggulan: "Protein tinggi", harga: 7000, stok: 1000 },
+    { id: 80, nama: "Daun Jeruk Purut", kategori: "Dedaunan", asal: "Jawa Timur", keunggulan: "Aroma bumbu masakan", harga: 15000, stok: 200 },
+    { id: 81, nama: "Kulit Kayu Mahoni", kategori: "Industri", asal: "Jawa", keunggulan: "Pewarna alami", harga: 10000, stok: 300 },
+    { id: 82, nama: "Madu Hutan", kategori: "Pangan", asal: "Sumbawa", keunggulan: "Madu liar murni", harga: 120000, stok: 40 },
+    { id: 83, nama: "Jamu Kemasan", kategori: "Kesehatan", asal: "Sukoharjo", keunggulan: "Tradisi modern", harga: 5000, stok: 1000 },
+    { id: 84, nama: "Sirup Pala", kategori: "Minuman", asal: "Bogor", keunggulan: "Rasa segar khas", harga: 35000, stok: 60 },
+    { id: 85, nama: "Kecap Manis", kategori: "Bumbu", asal: "Nasional", keunggulan: "Khas Indonesia", harga: 15000, stok: 400 },
+    { id: 86, nama: "Sambal Botol", kategori: "Bumbu", asal: "Nasional", keunggulan: "Pedas bervariasi", harga: 20000, stok: 300 },
+    { id: 87, nama: "Gamelan", kategori: "Seni", asal: "Jawa Tengah", keunggulan: "Nada presisi perunggu", harga: 25000000, stok: 3 },
+    { id: 88, nama: "Angklung", kategori: "Seni", asal: "Jawa Barat", keunggulan: "Warisan UNESCO", harga: 150000, stok: 20 },
+    { id: 89, nama: "Wayang Kulit", kategori: "Seni", asal: "Yogyakarta", keunggulan: "Kerajinan kulit asli", harga: 750000, stok: 15 },
+    { id: 90, nama: "Sabun Herbal", kategori: "Kosmetik", asal: "Bali", keunggulan: "Bahan tropis alami", harga: 25000, stok: 150 },
+    { id: 91, nama: "Lulur Bali", kategori: "Kosmetik", asal: "Bali", keunggulan: "Kualitas spa dunia", harga: 35000, stok: 120 },
+    { id: 92, nama: "Minyak Kelapa", kategori: "Pangan", asal: "Sulawesi", keunggulan: "Lebih sehat", harga: 35000, stok: 200 },
+    { id: 93, nama: "Tepung Sagu", kategori: "Pangan", asal: "Papua", keunggulan: "Bebas gluten", harga: 15000, stok: 400 },
+    { id: 94, nama: "Gula Singkong", kategori: "Pemanis", asal: "Lampung", keunggulan: "Aman diabetes", harga: 45000, stok: 100 },
+    { id: 95, nama: "Keripik Tempe", kategori: "Snack", asal: "Malang", keunggulan: "Renyah berprotein", harga: 15000, stok: 250 },
+    { id: 96, nama: "Emping Melinjo", kategori: "Snack", asal: "Banten", keunggulan: "Rasa khas", harga: 40000, stok: 80 },
+    { id: 97, nama: "Biji Kemiri", kategori: "Rempah", asal: "NTT", keunggulan: "Kadar minyak tinggi", harga: 45000, stok: 100 },
+    { id: 98, nama: "Kopi Robusta Dampit", kategori: "Minuman", asal: "Malang", keunggulan: "Rasa cokelat kuat", harga: 80000, stok: 60 },
+    { id: 99, nama: "Bungkil Kopra", kategori: "Pakan", asal: "Sulawesi", keunggulan: "Pakan ternak bergizi", harga: 5000, stok: 1000 },
+    { id: 100, nama: "Briket Kayu", kategori: "Energi", asal: "Jawa Tengah", keunggulan: "Ramah lingkungan", harga: 15000, stok: 500 }
 ];
 
-// APPLICATION STATE (Variables to track transaction status)
-let totalKeranjang = 0;
-let jumlahItem = 0;
+// 2. Gabungkan ke database inventory kamu
+// Gunakan ini untuk memasukkan data tambahan ke dalam variabel inventory utama
+inventory.push(...produkTambahan);
 
-// DOM SELECTION
-const btnTampilkan = document.getElementById('btn-tampilkan-produk');
-const katalogContainer = document.getElementById('katalog-container');
-const displayTotal = document.getElementById('display-total');
-const badgeKeranjang = document.getElementById('cart-badge');
-const btnCheckout = document.getElementById('btn-checkout');
-const promoAlert = document.getElementById('promo-alert');
-
-
-// ==========================================
-// TASK 1: LOOPS (UI Automation)
-// ==========================================
-btnTampilkan.addEventListener('click', function() {
-    // 1. Clear empty message
-    katalogContainer.innerHTML = '';
-
-    // 2. Looping EcoTrace product data
-    for (let i = 0; i < dataProduk.length; i++) {
-        const item = dataProduk[i];
-        
-        // Injecting HTML into container
-        katalogContainer.innerHTML += `
-            <div class="col-md-4 mb-3">
-                <div class="card p-3 shadow-sm h-100 text-center product-card">
-                    <i class="fa-solid ${item.icon} fa-3x text-primary mb-3"></i>
-                    <h5 class="fw-bold">${item.nama}</h5>
-                    <p class="text-muted small">International Export Standard Audit</p>
-                    <p class="fw-bold text-success fs-5">$ ${item.harga}</p>
-                    <button class="btn btn-primary w-100" onclick="tambahKeKeranjang(${item.harga})">
-                        Add to Report
-                    </button>
-                </div>
-            </div>
-        `;
-    }
-
-    // Change button status after click
-    btnTampilkan.disabled = true;
-    btnTampilkan.innerHTML = '<i class="fa-solid fa-check"></i> Data Loaded';
-});
-
-
-// ==========================================
-// TASK 2: TRANSACTION LOGIC (Add to Cart)
-// ==========================================
-function tambahKeKeranjang(hargaProduk) {
-    // 1. Update State (Data)
-    totalKeranjang += hargaProduk;
-    jumlahItem += 1;
-
-    // 2. Update UI (DOM Manipulation)
-    badgeKeranjang.textContent = jumlahItem;
-    // Formatting currency to USD
-    displayTotal.textContent = '$ ' + totalKeranjang.toLocaleString('en-US');
-    
-    // Enable checkout button as the cart is no longer empty
-    btnCheckout.classList.remove('disabled');
-
-    // Call promo check function
-    cekPromoOtomatis();
-}
-
-
-// ==========================================
-// TASK 3: CONDITIONALS (Business Promo Logic)
-// ==========================================
-function cekPromoOtomatis() {
-    const teksPromo = document.getElementById('promo-text');
-    
-    // TODO MAHASISWA: Logic for Bulk Discount.
-    // Adjusted threshold to $500 for a more realistic international audit fee.
-    const threshold = 500;
-
-    if (totalKeranjang >= threshold) {
-        // Show promo success
-        promoAlert.classList.remove('d-none');
-        promoAlert.classList.replace('alert-info', 'alert-success');
-        teksPromo.textContent = "Congratulations! You've unlocked the 10% Bulk Export Discount.";
-    } else {
-        // Upselling message
-        promoAlert.classList.remove('d-none');
-        promoAlert.classList.replace('alert-success', 'alert-info');
-        teksPromo.textContent = `Add $ ${(threshold - totalKeranjang).toLocaleString('en-US')} more to get a 10% discount!`;
-    }
-}
-
-
-// ==========================================
-// TASK 4: EVENT LISTENER (Conversion Point)
-// ==========================================
-btnCheckout.addEventListener('click', function() {
-    // Visual feedback for processing
-    btnCheckout.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing Reports...';
-    btnCheckout.classList.replace('btn-primary', 'btn-success');
-    
-    // Simulate server delay
-    setTimeout(() => {
-        alert(`Certification Successful!\nTotal Fee: $ ${totalKeranjang.toLocaleString('en-US')}\nThank you for choosing EcoTrace.io.`);
-        
-        // Reset application
-        location.reload(); 
-    }, 1500);
-});
+console.log("Database Indonesia Sukses Dimuat!");

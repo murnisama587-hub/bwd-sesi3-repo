@@ -67,3 +67,18 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 - json (enabled by default - don't turn it off)
 - [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
 - [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+
+
+# EcoTrace.io - Global Export Transparency Platform
+
+**EcoTrace.io** is a digital business solution designed to help Indonesian producers meet international export standards (EUDR & ESG) through verified traceability and carbon footprint auditing.
+
+### Key Features:
+- **Origin Mapping:** Real-time GPS tracking for raw materials.
+- **Carbon Intelligence:** Automated carbon footprint calculation for shipping.
+- **Digital Integrity:** Tamper-proof QR Code verification for global buyers.
+
+### Technical Implementation:
+- Built with **CodeIgniter 4** and **Bootstrap 5**.
+- Business logic implemented using **JavaScript (Loops & Conditionals)**.
+- Features a **Bulk Verification Discount (20%)** for orders over $500.

@@ -1,21 +1,19 @@
 // ==========================================
-// ARSITEKTUR MVP: LOGIKA BISNIS & UI (Sesi 3)
+// MVP ARCHITECTURE: BUSINESS LOGIC & UI (Sesi 3)
 // ==========================================
 
-// 1. DATABASE SEMENTARA (Simulasi Array Data Produk)
-// Nanti di UAS, data ini akan diambil dari MySQL via CodeIgniter.
+// 1. TEMPORARY DATABASE (Product Data Array Simulation)
 const dataProduk = [
-    { id: 1, nama: "Paket Website Basic", harga: 1500000, icon: "fa-laptop-code" },
-    { id: 2, nama: "Jasa SEO Audit", harga: 800000, icon: "fa-magnifying-glass-chart" },
-    { id: 3, nama: "Manajemen Sosmed", harga: 2500000, icon: "fa-hashtag" }
+    { id: 1, nama: "Origin Traceability Report", harga: 150, icon: "fa-map-location-dot" },
+    { id: 2, nama: "Carbon Footprint Audit", harga: 120, icon: "fa-leaf" },
+    { id: 3, nama: "EUDR Compliance Cert", harga: 200, icon: "fa-certificate" }
 ];
 
-// STATE APLIKASI (Variabel untuk melacak status transaksi)
+// APPLICATION STATE (Variables to track transaction status)
 let totalKeranjang = 0;
 let jumlahItem = 0;
 
-// MENANGKAP ELEMEN HTML (DOM Selection)
-// Ini adalah cara JavaScript mencari elemen di index.html
+// DOM SELECTION
 const btnTampilkan = document.getElementById('btn-tampilkan-produk');
 const katalogContainer = document.getElementById('katalog-container');
 const displayTotal = document.getElementById('display-total');
@@ -25,41 +23,40 @@ const promoAlert = document.getElementById('promo-alert');
 
 
 // ==========================================
-// TUGAS 1: LOOPS (Otomatisasi Tampilan UI)
+// TASK 1: LOOPS (UI Automation)
 // ==========================================
 btnTampilkan.addEventListener('click', function() {
-    // Menghapus pesan kosong
-    katalogContainer.innerHTML = ''; 
+    // 1. Clear empty message
+    katalogContainer.innerHTML = '';
 
-    // TODO MAHASISWA: Gunakan 'for loop' untuk menampilkan dataProduk ke layar.
-    // Petunjuk: Loop dari 0 sampai dataProduk.length
-    
+    // 2. Looping EcoTrace product data
     for (let i = 0; i < dataProduk.length; i++) {
-        // Membuat elemen HTML untuk setiap produk
-        let produkCard = `
-            <div class="col-md-4">
-                <div class="card product-card h-100 p-3 text-center border-primary border-opacity-25">
-                    <i class="fa-solid ${dataProduk[i].icon} fa-3x text-primary mb-3 mt-2"></i>
-                    <h5 class="card-title fw-bold">${dataProduk[i].nama}</h5>
-                    <p class="card-text text-muted">Rp ${dataProduk[i].harga.toLocaleString('id-ID')}</p>
-                    <button class="btn btn-outline-primary w-100" onclick="tambahKeKeranjang(${dataProduk[i].harga})">
-                        + Tambah
+        const item = dataProduk[i];
+        
+        // Injecting HTML into container
+        katalogContainer.innerHTML += `
+            <div class="col-md-4 mb-3">
+                <div class="card p-3 shadow-sm h-100 text-center product-card">
+                    <i class="fa-solid ${item.icon} fa-3x text-primary mb-3"></i>
+                    <h5 class="fw-bold">${item.nama}</h5>
+                    <p class="text-muted small">International Export Standard Audit</p>
+                    <p class="fw-bold text-success fs-5">$ ${item.harga}</p>
+                    <button class="btn btn-primary w-100" onclick="tambahKeKeranjang(${item.harga})">
+                        Add to Report
                     </button>
                 </div>
             </div>
         `;
-        // Menyuntikkan HTML ke dalam container
-        katalogContainer.innerHTML += produkCard;
     }
 
-    // Ubah status tombol setelah diklik
+    // Change button status after click
     btnTampilkan.disabled = true;
-    btnTampilkan.innerHTML = '<i class="fa-solid fa-check"></i> Data Dimuat';
+    btnTampilkan.innerHTML = '<i class="fa-solid fa-check"></i> Data Loaded';
 });
 
 
 // ==========================================
-// TUGAS 2: LOGIKA TRANSAKSI (Fungsi Beli)
+// TASK 2: TRANSACTION LOGIC (Add to Cart)
 // ==========================================
 function tambahKeKeranjang(hargaProduk) {
     // 1. Update State (Data)
@@ -68,53 +65,54 @@ function tambahKeKeranjang(hargaProduk) {
 
     // 2. Update UI (DOM Manipulation)
     badgeKeranjang.textContent = jumlahItem;
-    displayTotal.textContent = 'Rp ' + totalKeranjang.toLocaleString('id-ID');
+    // Formatting currency to USD
+    displayTotal.textContent = '$ ' + totalKeranjang.toLocaleString('en-US');
     
-    // Aktifkan tombol checkout karena keranjang sudah tidak kosong
+    // Enable checkout button as the cart is no longer empty
     btnCheckout.classList.remove('disabled');
 
-    // Panggil fungsi pengecekan promo
+    // Call promo check function
     cekPromoOtomatis();
 }
 
 
 // ==========================================
-// TUGAS 3: CONDITIONALS (Logika Promo Bisnis)
+// TASK 3: CONDITIONALS (Business Promo Logic)
 // ==========================================
 function cekPromoOtomatis() {
     const teksPromo = document.getElementById('promo-text');
     
-    // TODO MAHASISWA: Buat logika IF/ELSE. 
-    // Jika totalKeranjang LEBIH DARI Rp 2.000.000, berikan pesan diskon.
-    // Jika tidak, hilangkan pesan diskon/beri pesan upselling.
+    // TODO MAHASISWA: Logic for Bulk Discount.
+    // Adjusted threshold to $500 for a more realistic international audit fee.
+    const threshold = 500;
 
-    if (totalKeranjang > 2000000) {
-        // Tampilkan peringatan promo
+    if (totalKeranjang >= threshold) {
+        // Show promo success
         promoAlert.classList.remove('d-none');
         promoAlert.classList.replace('alert-info', 'alert-success');
-        teksPromo.textContent = "Selamat! Anda berhak mendapat Diskon 10% saat Checkout.";
+        teksPromo.textContent = "Congratulations! You've unlocked the 10% Bulk Export Discount.";
     } else {
-        // Sembunyikan peringatan jika total turun (opsional untuk keranjang dinamis)
-        // Untuk saat ini, kita beri dorongan upselling
+        // Upselling message
         promoAlert.classList.remove('d-none');
-        teksPromo.textContent = `Tambah Rp ${(2000000 - totalKeranjang).toLocaleString('id-ID')} lagi untuk dapat Diskon 10%!`;
+        promoAlert.classList.replace('alert-success', 'alert-info');
+        teksPromo.textContent = `Add $ ${(threshold - totalKeranjang).toLocaleString('en-US')} more to get a 10% discount!`;
     }
 }
 
 
 // ==========================================
-// TUGAS 4: EVENT LISTENER (Titik Konversi Akhir)
+// TASK 4: EVENT LISTENER (Conversion Point)
 // ==========================================
 btnCheckout.addEventListener('click', function() {
-    // Feedback visual seketika untuk meredakan kecemasan pengguna (DOM Manipulation)
-    btnCheckout.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Memproses Pesanan...';
+    // Visual feedback for processing
+    btnCheckout.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing Reports...';
     btnCheckout.classList.replace('btn-primary', 'btn-success');
     
-    // Simulasi jeda server (nanti akan diganti dengan request CodeIgniter)
+    // Simulate server delay
     setTimeout(() => {
-        alert(`Transaksi Berhasil!\nTotal Pembayaran: Rp ${totalKeranjang.toLocaleString('id-ID')}\nTerima kasih telah berbelanja.`);
+        alert(`Certification Successful!\nTotal Fee: $ ${totalKeranjang.toLocaleString('en-US')}\nThank you for choosing EcoTrace.io.`);
         
-        // Reset aplikasi setelah transaksi selesai
+        // Reset application
         location.reload(); 
     }, 1500);
 });

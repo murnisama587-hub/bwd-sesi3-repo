@@ -3,108 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoTrace.io | Global Supply Chain Dashboard</title>
+    <title>EcoTrace.io | Global Supply Chain Ultimate</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
-        :root { --primary-teal: #16a085; --dark-navy: #243444; --premium-gold: #d4af37; }
-        body { font-family: 'Open Sans', sans-serif; background-color: #f8fafb; color: var(--dark-navy); }
+        :root { --primary-teal: #16a085; --dark-navy: #243444; --premium-gold: #d4af37; --eco-bg: #f4f8f7; }
+        body { font-family: 'Open Sans', sans-serif; background-color: var(--eco-bg); color: var(--dark-navy); }
         h1, h2, h3, h4 { font-family: 'Montserrat', sans-serif; }
         
-        /* NAVBAR */
+        /* UI COMPONENTS */
         .navbar { background-color: var(--dark-navy); border-bottom: 4px solid var(--primary-teal); }
+        .stats-card { border: none; border-radius: 15px; background: white; border-left: 5px solid var(--primary-teal); padding: 15px; }
         
-        /* SEARCH AREA */
-        .search-hero { background: white; padding: 40px 0; border-bottom: 1px solid #eee; }
-        .search-bar { border-radius: 40px; border: 2px solid #ddd; padding: 15px 30px; transition: 0.3s; }
-        .search-bar:focus { border-color: var(--primary-teal); box-shadow: 0 0 15px rgba(22, 160, 133, 0.1); outline: none; }
-
-        /* FEATURED SECTION */
-        .featured-header { border-left: 5px solid var(--premium-gold); padding-left: 15px; margin-bottom: 25px; }
+        .product-card { border: none; border-radius: 12px; transition: 0.3s; cursor: pointer; background: white; height: 100%; border: 1px solid transparent; }
+        .product-card:hover { transform: translateY(-5px); border-color: var(--primary-teal); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+        
         .featured-card { border: 2px solid var(--premium-gold) !important; position: relative; overflow: hidden; }
-        .featured-badge { position: absolute; top: 10px; right: -30px; background: var(--premium-gold); color: white; padding: 5px 40px; transform: rotate(45deg); font-size: 0.6rem; font-weight: bold; }
+        .featured-label { position: absolute; top: 10px; right: -30px; background: var(--premium-gold); color: white; padding: 5px 35px; transform: rotate(45deg); font-size: 0.6rem; font-weight: bold; }
 
-        /* PRODUCT CARDS */
-        .product-card { border: none; border-radius: 15px; transition: 0.3s; cursor: pointer; background: white; border: 1px solid transparent; }
-        .product-card:hover { transform: translateY(-8px); border-color: var(--primary-teal); box-shadow: 0 15px 30px rgba(0,0,0,0.08); }
-        .card-img-top { height: 120px; object-fit: cover; border-radius: 15px 15px 0 0; }
-        
-        /* SIDEBAR FORM */
-        .verification-panel { background: white; border-radius: 20px; padding: 30px; position: sticky; top: 100px; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-        .id-badge { background: #fff5f5; color: #e74c3c; border: 1px solid #ffcfcf; font-size: 0.65rem; padding: 2px 8px; border-radius: 10px; }
+        .verification-panel { background: white; border-radius: 20px; padding: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.05); position: sticky; top: 90px; }
+        .table-record { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
 
-    <nav class="navbar navbar-dark sticky-top shadow-sm">
+    <nav class="navbar navbar-dark py-3 sticky-top">
         <div class="container">
-            <a class="navbar-brand fw-bold" href="#">
-                <i class="fa-solid fa-earth-asia text-success me-2"></i>EcoTrace Global Hub
-            </a>
+            <a class="navbar-brand fw-bold" href="#"><i class="fa-solid fa-leaf text-success me-2"></i>EcoTrace Global Enterprise</a>
             <div class="text-white d-none d-md-block small opacity-75">
-                <i class="fa-solid fa-id-badge me-2 text-info"></i>Murni Agustina Andini (25120100018)
+                <i class="fa-solid fa-user-circle me-1"></i> Murni Agustina Andini | 25120100018
             </div>
         </div>
     </nav>
 
-    <section class="search-hero shadow-sm">
-        <div class="container">
-            <div class="row justify-content-center text-center">
-                <div class="col-md-8">
-                    <h2 class="fw-800 mb-4">Global Commodity Marketplace</h2>
-                    <div class="position-relative">
-                        <input type="text" id="searchInput" onkeyup="globalSearch()" class="form-control search-bar" placeholder="Cari 100+ komoditas, negara asal, atau kategori...">
-                        <i class="fa-solid fa-magnifying-glass position-absolute" style="right: 30px; top: 22px; color: #aaa;"></i>
-                    </div>
+    <main class="container my-4">
+        
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="stats-card shadow-sm">
+                    <small class="text-muted fw-bold text-uppercase">Total Sync</small>
+                    <h3 id="statTotal" class="mb-0">1</h3>
                 </div>
             </div>
+            <div class="col-md-3">
+                <div class="stats-card shadow-sm" style="border-left-color: var(--premium-gold);">
+                    <small class="text-muted fw-bold text-uppercase">Verified Weight</small>
+                    <h3 id="statVol" class="mb-0">0 <span class="h6 text-muted">Ton</span></h3>
+                </div>
+            </div>
+            <div class="col-md-6 text-end d-flex align-items-center justify-content-end">
+                <input type="text" id="mainSearch" onkeyup="globalFilter()" class="form-control w-75 rounded-pill border-2" placeholder="Cari 100+ komoditas global...">
+            </div>
         </div>
-    </section>
 
-    <main class="container my-5">
-        <div class="row g-5">
+        <div class="row g-4">
             
             <div class="col-lg-8">
                 
-                <div id="featuredSection">
-                    <div class="featured-header">
-                        <h4 class="fw-bold m-0 text-uppercase" style="letter-spacing: 1px;">Premium Archipelago Origin</h4>
-                        <small class="text-muted">Produk unggulan dengan standar verifikasi tertinggi</small>
-                    </div>
-                    <div class="row g-3 mb-5" id="featuredGrid">
-                        </div>
+                <div id="spotlightArea">
+                    <h5 class="fw-bold mb-3"><i class="fa-solid fa-star text-warning me-2"></i>Archipelago Premium Origin</h5>
+                    <div class="row g-2 mb-4" id="featuredGrid"></div>
                 </div>
 
-                <h4 class="fw-bold mb-4"><i class="fa-solid fa-globe me-2 text-primary"></i>Global Marketplace Hub</h4>
-                <div class="row g-3" id="mainGrid" style="max-height: 600px; overflow-y: auto; padding-right: 10px;">
+                <h5 class="fw-bold mb-3"><i class="fa-solid fa-earth-americas text-primary me-2"></i>Global Marketplace Hub</h5>
+                <div class="row g-2 mb-5" id="globalGrid" style="max-height: 400px; overflow-y: auto;"></div>
+
+                <div class="table-record">
+                    <div class="p-3 bg-dark text-white d-flex justify-content-between">
+                        <h6 class="m-0 fw-bold">DATABASE RECORD LOG</h6>
+                        <span class="badge bg-success small">Secure Sync Active</span>
                     </div>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0" style="font-size: 0.8rem;">
+                            <thead class="table-light text-uppercase">
+                                <tr>
+                                    <th>Batch ID</th>
+                                    <th>Type</th>
+                                    <th>Commodity</th>
+                                    <th>Route</th>
+                                    <th>Value (USD)</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="dbLog">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
             <div class="col-lg-4">
                 <div class="verification-panel">
-                    <h5 class="fw-bold mb-4 border-bottom pb-3"><i class="fa-solid fa-file-shield me-2 text-success"></i>Verification Center</h5>
-                    <form id="vForm">
+                    <h5 class="fw-bold mb-4">Verifikasi Transaksi Global</h5>
+                    <form id="tradeForm">
                         <div class="mb-3">
-                            <label class="form-label small fw-bold">Selected Commodity</label>
-                            <input type="text" id="vName" class="form-control bg-light fw-bold" readonly placeholder="Pilih produk...">
+                            <label class="form-label small fw-bold">Trade Category</label>
+                            <select id="tradeType" class="form-select border-primary fw-bold">
+                                <option value="EKSPOR">EKSPOR (Luar Negeri)</option>
+                                <option value="IMPOR">IMPOR (Dalam Negeri)</option>
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label small fw-bold">Global Origin</label>
-                            <input type="text" id="vOrigin" class="form-control bg-light" readonly>
+                            <label class="form-label small fw-bold">Item Terpilih</label>
+                            <input type="text" id="vItem" class="form-control bg-light fw-bold" readonly placeholder="Pilih dari katalog">
+                            <input type="hidden" id="vPrice">
+                        </div>
+                        <div class="row g-2 mb-3">
+                            <div class="col-6">
+                                <label class="form-label small fw-bold">Origin</label>
+                                <input type="text" id="vOrigin" class="form-control bg-light small" readonly>
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small fw-bold">Destination</label>
+                                <select id="vDest" class="form-select small">
+                                    <option value="USA">United States</option>
+                                    <option value="Germany">Germany (EU)</option>
+                                    <option value="Japan">Japan</option>
+                                    <option value="China">China</option>
+                                    <option value="Indonesia">Indonesia</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label small fw-bold">Volume (Metric Tons)</label>
-                            <input type="number" id="vVol" class="form-control border-primary" placeholder="Masukkan berat">
+                            <label class="form-label small fw-bold">Volume (Ton)</label>
+                            <input type="number" id="vVol" onkeyup="recalc()" class="form-control border-success" placeholder="0">
                         </div>
-                        <div class="p-3 bg-light rounded-3 mb-4 border border-dashed">
-                            <small class="text-muted d-block mb-1">Standard Highlights:</small>
-                            <p id="vDetail" class="small mb-0 fw-600">Klik salah satu produk untuk melihat detail spesifikasi perdagangan.</p>
+                        
+                        <div class="p-3 rounded-3 bg-light border mb-4" style="font-size: 0.85rem;">
+                            <div class="d-flex justify-content-between mb-1">
+                                <span>Subtotal:</span>
+                                <span class="fw-bold" id="resSub">$0</span>
+                            </div>
+                            <div class="d-flex justify-content-between text-danger mb-1">
+                                <span>Pajak Karbon (1%):</span>
+                                <span class="fw-bold" id="resTax">$0</span>
+                            </div>
+                            <hr class="my-2">
+                            <div class="d-flex justify-content-between h6 mb-0 text-success">
+                                <span class="fw-bold">GRAND TOTAL:</span>
+                                <span class="fw-bold" id="resTotal">$0</span>
+                            </div>
                         </div>
-                        <button type="button" onclick="finalizeTransaction()" class="btn btn-dark w-100 py-3 fw-bold shadow-sm">
-                            SYNC TO BLOCKCHAIN <i class="fa-solid fa-link ms-2"></i>
+
+                        <button type="button" onclick="syncToDB()" class="btn btn-dark w-100 py-3 fw-bold shadow">
+                            SIMPAN KE DATABASE <i class="fa-solid fa-cloud-arrow-up ms-2 text-success"></i>
                         </button>
                     </form>
                 </div>
@@ -113,201 +158,111 @@
         </div>
     </main>
 
-    <footer class="py-5 text-center bg-white border-top">
-        <p class="text-muted small">&copy; 2026 Murni Agustina Andini - Cakrawala University | EcoTrace.io Enterprise MVP</p>
+    <footer class="py-4 text-center text-muted border-top mt-5 bg-white">
+        <small>&copy; 2026 Murni Agustina Andini - 25120100018 | EcoTrace Ultimate Edition</small>
     </footer>
 
     <script>
-        // MASTER DATABASE (100+ DATA MURNI)
-        const masterData = [
-            "1,Biji Kopi Gayo,Minuman,Indonesia,Grade seremonial, antioksidan tinggi",
-            "2,Biji Kopi Arabika,Minuman,Brasil,Profil rasa nutty dan cokelat",
-            "3,Saffron,Rempah,Iran,Kualitas stigma terbaik di dunia",
-            "4,Minyak Zaitun,Bahan Pangan,Italia,Extra Virgin, cold-pressed",
-            "5,Daun Stevia,Pemanis,Tiongkok,Kemurnian tinggi, nol kalori",
-            "6,Ginseng Merah,Kesehatan,Korea Selatan,Usia tanam 6 tahun (premium)",
-            "7,Bunga Tulip,Florikultura,Belanda,Variasi warna dan ketahanan lama",
-            "8,Daging Wagyu A5,Protein,Jepang,Marbling ratio tertinggi",
-            "9,Quinoa Organik,Serealia,Peru,Superfood, bebas gluten",
-            "10,Daun Eucalyptus,Minyak Atsiri,Australia,Kadar cineole tinggi",
-            "11,Kurma Medjool,Buah,Mesir,Tekstur lembut dan ukuran besar",
-            "12,Keju Parmesan,Diary,Italia,Sertifikasi DOP (asli Parma)",
-            "13,Vanila Bean,Rempah,Madagaskar,Aroma floral dan creamy",
-            "14,Kacang Hazelnut,Snack,Turki,Suplai 70% pasar global",
-            "15,Wine Bordeaux,Minuman,Prancis,Tradisi fermentasi klasik",
-            "16,Cokelat Couverture,Olahan,Belgia,Kandungan cocoa butter tinggi",
-            "17,Beras Basmati,Pangan,India,Bulir panjang dan aroma khas",
-            "18,Daun Rosemary,Herbal,Yunani,Organik, pengeringan alami",
-            "19,Kulit Sapi (Leather),Fashion,Italia,Tekstur lembut, tahan lama",
-            "20,Mesin Presisi,Teknologi,Jerman,Standar industri otomotif",
-            "21,Biji Kakao,Bahan Baku,Ghana,Karakter rasa cokelat yang kuat",
-            "22,Daun Teh Oolong,Dedaunan,Taiwan,Semi-fermentasi, rasa floral",
-            "23,Minyak Argan,Kosmetik,Maroko,Emas cair untuk rambut & kulit",
-            "24,Salmon Atlantik,Seafood,Norwegia,Kandungan Omega-3 sangat tinggi",
-            "25,Daun Sage,Herbal,Spanyol,Aroma kuat untuk kuliner Mediterania",
-            "26,Keramik Porselen,Dekorasi,Tiongkok,Detail lukisan tangan tradisional",
-            "27,Chip Semikonduktor,Elektronik,Taiwan,Arsitektur nanometer terbaru",
-            "28,Susu Bubuk,Diary,Selandia Baru,Sapi pemakan rumput (grass-fed)",
-            "29,Daun Bay (Salam),Rempah,Turki,Pengeringan udara, aroma awet",
-            "30,Parfum,Kecantikan,Prancis,Racikan perfumer ternama (Grasse)",
-            "31,Gandum Hard Wheat,Pangan,Kanada,Kadar protein tinggi untuk roti",
-            "32,Buah Pir (Singo),Buah,Korea Selatan,Sangat berair dan manis",
-            "33,Daun Thyme,Herbal,Prancis,Standar kuliner bintang lima",
-            "34,Biji Wijen,Bahan Baku,Ethiopia,Kadar minyak tinggi, aroma nutty",
-            "35,Mesin Kopi,Elektronik,Italia,Tekanan bar stabil, desain ikonik",
-            "36,Sutra Alam,Tekstil,Tiongkok,Kilau alami dan sangat lembut",
-            "37,Garam Himalaya,Bumbu,Pakistan,Kandungan mineral tinggi (pink)",
-            "38,Daun Mint Kering,Dedaunan,Maroko,Paling cocok untuk teh mint",
-            "39,Kacang Almond,Snack,Amerika Serikat,Produksi California, ukuran besar",
-            "40,Wine Prosecco,Minuman,Italia,Gelembung halus, rasa ringan",
-            "41,Kristal Swarowski,Aksesori,Austria,Pemotongan presisi tinggi",
-            "42,Daun Oregano,Herbal,Yunani,Aroma pedas dan bersahaja",
-            "43,Biji Kedelai,Pangan,Amerika Serikat,Non-GMO tersedia, kualitas stabil",
-            "44,Kayu Jati,Bahan Bangunan,Myanmar,Kepadatan tinggi, tahan cuaca",
-            "45,Minyak Kanola,Bahan Pangan,Kanada,Titik asap tinggi, rendah lemak",
-            "46,Jam Tangan,Aksesori,Swiss,Mekanik presisi, tahan puluhan tahun",
-            "47,Daun Pandan Bubuk,Dedaunan,Thailand,Praktis untuk industri bakery",
-            "48,Madu Manuka,Kesehatan,Selandia Baru,Kandungan antibakteri (UMF) tinggi",
-            "49,Udang Vaname,Seafood,Ekuador,Bebas antibiotik, ukuran seragam",
-            "50,Biji Chia,Superfood,Meksiko,Sumber serat dan protein nabati",
-            "51,Daun Lemon Verbena,Herbal,Chili,Aroma citrus yang menenangkan",
-            "52,Ban Mobil,Otomotif,Thailand,Karet alam kualitas ekspor",
-            "53,Karpet Rajut,Dekorasi,Iran,Benang sutra, motif historis",
-            "54,Kertas Kraft,Industri,Finlandia,Serat kayu panjang, sangat kuat",
-            "55,Daun Dill,Herbal,Rusia,Aroma unik untuk pengawetan",
-            "56,Biji Jagung Pipil,Pakan Ternak,Brasil,Harga kompetitif, pasokan stabil",
-            "57,Mentega (Butter),Diary,Prancis,Lemak tinggi (82%), rasa gurih",
-            "58,Tepung Tapioka,Bahan Baku,Vietnam,Putih bersih, daya rekat tinggi",
-            "59,Daun Kaffir Lime,Dedaunan,Thailand,Aroma jeruk yang sangat tajam",
-            "60,Serat Kapas,Tekstil,Uzbekistan,Serat panjang, kualitas benang halus",
-            "61,Minyak Kelapa Sawit,Industri,Malaysia,Produksi efisien, standar RSPO",
-            "62,Beras Melati,Pangan,Thailand,Harum alami, tekstur pulen",
-            "63,Daun Lemongrass,Herbal,Vietnam,Standar ekspor untuk teh herbal",
-            "64,Alat Kesehatan,Medis,Jerman,Akurasi tinggi, standar ISO",
-            "65,Biji Pinus,Snack,Rusia,Rasa gurih dan tekstur renyah",
-            "66,Buah Kiwi,Buah,Selandia Baru,Kaya Vitamin C, daging buah hijau",
-            "67,Daun Parsley,Herbal,Italia,Warna hijau tua, aroma segar",
-            "68,Ikan Makarel,Seafood,Jepang,Segar, pembekuan cepat di kapal",
-            "69,Biji Mustard,Rempah,Kanada,Bahan dasar saus mustard dunia",
-            "70,Susu Kedelai Bubuk,Minuman,Tiongkok,Kelarutan tinggi, rasa autentik",
-            "71,Daun Basil,Herbal,Italia,Bahan utama saus Pesto asli",
-            "72,Lensa Kamera,Fotografi,Jepang,Optik jernih, distorsi minimal",
-            "73,Biji Bunga Matahari,Pangan,Ukraina,Ukuran biji besar, kaya minyak",
-            "74,Madu Akasia,Kesehatan,Hungaria,Warna bening, rasa manis lembut",
-            "75,Daun Shiso,Dedaunan,Jepang,Pendamping sashimi, rasa unik",
-            "76,Kain Wol,Tekstil,Inggris,Klasik, hangat, kualitas penjahitan",
-            "77,Buah Naga,Buah,Vietnam,Kulit cerah, daging buah manis",
-            "78,Minyak Wijen,Bumbu,Korea Selatan,Aroma panggang yang kuat",
-            "79,Daun Lavender,Herbal,Prancis,Kualitas parfum & teh relaksasi",
-            "80,Pupuk Kalium,Pertanian,Belarusia,Kandungan unsur hara sangat tinggi",
-            "81,Biji Kacang Tanah,Snack,India,Kadar minyak seimbang",
-            "82,Cuka Balsamik,Bumbu,Italia,Fermentasi barel kayu bertahun-tahun",
-            "83,Daun Marjoram,Herbal,Mesir,Rasa manis pahit yang seimbang",
-            "84,Tablet/Gadget,Elektronik,Vietnam,Pusat perakitan merek global",
-            "85,Biji Kopi Robusta,Minuman,Vietnam,Body tebal, kafein tinggi",
-            "86,Buah Ceri,Buah,Chili,Ukuran besar, manis saat musim",
-            "87,Daun Tarragon,Herbal,Prancis,Esensial untuk saus Béarnaise",
-            "88,Produk Perawatan Pria,Kosmetik,Inggris,Tradisi grooming klasik",
-            "89,Biji Sorghum,Pangan,Amerika Serikat,Alternatif gandum yang sehat",
-            "90,Kulit Domba,Fashion,Selandia Baru,Sangat lembut dan fleksibel",
-            "91,Daun Senna,Kesehatan,India,Pencahar alami industri farmasi",
-            "92,Ikan Tuna Bluefin,Seafood,Jepang,Daging bagian o-toro terbaik",
-            "93,Kacang Pistachio,Snack,Iran,Warna hijau cerah, rasa gurih",
-            "94,Minyak Alpukat,Bahan Pangan,Meksiko,Nutrisi tinggi, titik asap tinggi",
-            "95,Daun Fenugreek,Rempah,India,Aroma kari yang mendalam",
-            "96,Keramik Industri,Konstruksi,Spanyol,Tahan gores, desain minimalis",
-            "97,Biji Rami (Flaxseed),Superfood,Kanada,Kandungan Omega-3 nabati tinggi",
-            "98,Cokelat Swiss,Olahan,Swiss,Teknik conching yang sangat halus",
-            "99,Daun Chives,Herbal,Jerman,Aroma bawang yang lembut",
-            "100,Robot Industri,Manufaktur,Jepang,Otomasi presisi tinggi"
-        ];
+        // DATA MASTER 100 ITEM
+        const raw = ["1,Daun Matcha,Dedaunan,Jepang,100","2,Biji Kopi Arabika,Minuman,Brasil,150","3,Saffron,Rempah,Iran,2000","4,Minyak Zaitun,Bahan Pangan,Italia,80","5,Daun Stevia,Pemanis,Tiongkok,40","6,Ginseng Merah,Kesehatan,Korea Selatan,300","7,Bunga Tulip,Florikultura,Belanda,50","8,Daging Wagyu A5,Protein,Jepang,500","9,Quinoa Organik,Serealia,Peru,45","10,Daun Eucalyptus,Minyak Atsiri,Australia,60","11,Kurma Medjool,Buah,Mesir,35","12,Keju Parmesan,Diary,Italia,120","13,Vanila Bean,Rempah,Madagaskar,400","14,Kacang Hazelnut,Snack,Turki,30","15,Wine Bordeaux,Minuman,Prancis,250","16,Cokelat Couverture,Olahan,Belgia,95","17,Beras Basmati,Pangan,India,25","18,Daun Rosemary,Herbal,Yunani,55","19,Kulit Sapi (Leather),Fashion,Italia,180","20,Mesin Presisi,Teknologi,Jerman,5000","21,Biji Kakao,Bahan Baku,Ghana,40","22,Daun Teh Oolong,Dedaunan,Taiwan,120","23,Minyak Argan,Kosmetik,Maroko,350","24,Salmon Atlantik,Seafood,Norwegia,90","25,Daun Sage,Herbal,Spanyol,45","26,Keramik Porselen,Dekorasi,Tiongkok,220","27,Chip Semikonduktor,Elektronik,Taiwan,8000","28,Susu Bubuk,Diary,Selandia Baru,50","29,Daun Bay (Salam),Rempah,Turki,30","30,Parfum,Kecantikan,Prancis,1500","31,Gandum Hard Wheat,Pangan,Kanada,20","32,Buah Pir (Singo),Buah,Korea Selatan,45","33,Daun Thyme,Herbal,Prancis,50","34,Biji Wijen,Bahan Baku,Ethiopia,35","35,Mesin Kopi,Elektronik,Italia,1200","36,Sutra Alam,Tekstil,Tiongkok,400","37,Garam Himalaya,Bumbu,Pakistan,15","38,Daun Mint Kering,Dedaunan,Maroko,40","39,Kacang Almond,Snack,Amerika Serikat,75","40,Wine Prosecco,Minuman,Italia,180","41,Kristal Swarowski,Aksesori,Austria,900","42,Daun Oregano,Herbal,Yunani,35","43,Biji Kedelai,Pangan,Amerika Serikat,18","44,Kayu Jati,Bahan Bangunan,Myanmar,1500","45,Minyak Kanola,Bahan Pangan,Kanada,30","46,Jam Tangan,Aksesori,Swiss,3500","47,Daun Pandan Bubuk,Dedaunan,Thailand,65","48,Madu Manuka,Kesehatan,Selandia Baru,850","49,Udang Vaname,Seafood,Ekuador,60","50,Biji Chia,Superfood,Meksiko,55","51,Daun Lemon Verbena,Herbal,Chili,45","52,Ban Mobil,Otomotif,Thailand,120","53,Karpet Rajut,Dekorasi,Iran,4500","54,Kertas Kraft,Industri,Finlandia,15","55,Daun Dill,Herbal,Rusia,35","56,Biji Jagung Pipil,Pakan Ternak,Brasil,12","57,Mentega (Butter),Diary,Prancis,85","58,Tepung Tapioka,Bahan Baku,Vietnam,18","59,Daun Kaffir Lime,Dedaunan,Thailand,70","60,Serat Kapas,Tekstil,Uzbekistan,45","61,Minyak Kelapa Sawit,Industri,Malaysia,22","62,Beras Melati,Pangan,Thailand,28","63,Daun Lemongrass,Herbal,Vietnam,40","64,Alat Kesehatan,Medis,Jerman,8500","65,Biji Pinus,Snack,Rusia,95","66,Buah Kiwi,Buah,Selandia Baru,65","67,Daun Parsley,Herbal,Italia,35","68,Ikan Makarel,Seafood,Jepang,45","69,Biji Mustard,Rempah,Kanada,30","70,Susu Kedelai Bubuk,Minuman,Tiongkok,40","71,Daun Basil,Herbal,Italia,45","72,Lensa Kamera,Fotografi,Jepang,2500","73,Biji Bunga Matahari,Pangan,Ukraina,22","74,Madu Akasia,Kesehatan,Hungaria,150","75,Daun Shiso,Dedaunan,Jepang,120","76,Kain Wol,Tekstil,Inggris,350","77,Buah Naga,Buah,Vietnam,35","78,Minyak Wijen,Bumbu,Korea Selatan,85","79,Daun Lavender,Herbal,Prancis,120","80,Pupuk Kalium,Pertanian,Belarusia,180","81,Biji Kacang Tanah,Snack,India,25","82,Cuka Balsamik,Bumbu,Italia,650","83,Daun Marjoram,Herbal,Mesir,35","84,Tablet/Gadget,Elektronik,Vietnam,600","85,Biji Kopi Robusta,Minuman,Vietnam,45","86,Buah Ceri,Buah,Chili,120","87,Daun Tarragon,Herbal,Prancis,65","88,Produk Perawatan Pria,Kosmetik,Inggris,150","89,Biji Sorghum,Pangan,Amerika Serikat,20","90,Kulit Domba,Fashion,Selandia Baru,220","91,Daun Senna,Kesehatan,India,55","92,Ikan Tuna Bluefin,Seafood,Jepang,9500","93,Kacang Pistachio,Snack,Iran,180","94,Minyak Alpukat,Bahan Pangan,Meksiko,120","95,Daun Fenugreek,Rempah,India,40","96,Keramik Industri,Konstruksi,Spanyol,85","97,Biji Rami (Flaxseed),Superfood,Kanada,55","98,Cokelat Swiss,Olahan,Swiss,450","99,Daun Chives,Herbal,Jerman,35","100,Robot Industri,Manufaktur,Jepang,15000"];
 
-        // KONVERSI DATA KE ARRAY OF OBJECTS
-        const items = masterData.map(line => {
-            const p = line.split(',');
-            return { id: p[0], nama: p[1], kat: p[2], asal: p[3], detail: p[4] };
+        const items = raw.map(l => {
+            const p = l.split(',');
+            return { id: p[0], nama: p[1], kat: p[2], asal: p[3], harga: parseInt(p[4]) };
         });
 
-        const imgLib = {
-            "Minuman": "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=300",
-            "Rempah": "https://images.unsplash.com/photo-1509358271058-acd22cc93898?q=80&w=300",
-            "Pangan": "https://images.unsplash.com/photo-1532336414038-cf19250c5757?q=80&w=300",
-            "default": "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=300"
-        };
+        let totalT = 0, totalV = 0;
 
-        // RENDER FUNGSI
-        function renderView(filter = "") {
-            const grid = document.getElementById('mainGrid');
-            const featuredGrid = document.getElementById('featuredGrid');
-            grid.innerHTML = "";
-            featuredGrid.innerHTML = "";
+        function render(filter = "") {
+            const fGrid = document.getElementById('featuredGrid');
+            const gGrid = document.getElementById('globalGrid');
+            fGrid.innerHTML = ""; gGrid.innerHTML = "";
 
-            // 1. Render Featured (Indonesian Special) - Hanya muncul kalau tidak sedang mencari
+            // Spotlight Indonesia (Hanya saat tidak mencari)
             if(filter === "") {
-                const indos = items.filter(i => i.asal === "Indonesia").slice(0, 4);
-                indos.forEach(i => {
-                    featuredGrid.innerHTML += `
+                items.filter(i => i.asal === "Indonesia" || i.id === "1").slice(0,4).forEach(i => {
+                    fGrid.innerHTML += `
                         <div class="col-6 col-md-3">
-                            <div class="card product-card featured-card h-100" onclick="selectItem('${i.nama}')">
-                                <div class="featured-badge">TOP</div>
-                                <img src="${imgLib[i.kat] || imgLib.default}" class="card-img-top">
-                                <div class="card-body p-2">
-                                    <span class="id-badge fw-bold">Archipelago Premium</span>
-                                    <h6 class="fw-bold mb-0 mt-1" style="font-size:0.8rem;">${i.nama}</h6>
-                                </div>
+                            <div class="product-card featured-card p-3 shadow-sm" onclick="selectItem('${i.nama}')">
+                                <div class="featured-label">TOP</div>
+                                <h6 class="fw-bold mb-1 small">${i.nama}</h6>
+                                <span class="badge bg-light text-dark border small" style="font-size:0.6rem;">Origin: ${i.asal}</span>
                             </div>
                         </div>
                     `;
                 });
-                document.getElementById('featuredSection').style.display = "block";
+                document.getElementById('spotlightArea').style.display = "block";
             } else {
-                document.getElementById('featuredSection').style.display = "none";
+                document.getElementById('spotlightArea').style.display = "none";
             }
 
-            // 2. Render Main Global Hub
-            const filtered = items.filter(i => 
-                i.nama.toLowerCase().includes(filter.toLowerCase()) || 
-                i.asal.toLowerCase().includes(filter.toLowerCase())
-            );
-
-            filtered.forEach(i => {
-                const isIndo = i.asal === "Indonesia" ? '<span class="id-badge ms-1">Premium Origin</span>' : '';
-                grid.innerHTML += `
-                    <div class="col-6 col-md-4 col-xl-3">
-                        <div class="card product-card shadow-sm h-100" onclick="selectItem('${i.nama}')">
-                            <div class="p-3">
-                                <small class="text-primary fw-bold">${i.asal}</small> ${isIndo}
-                                <h6 class="fw-bold mb-1 mt-1" style="font-size:0.85rem;">${i.nama}</h6>
-                                <p class="text-muted small mb-0" style="font-size:0.7rem;">${i.kat}</p>
+            // Global Grid
+            items.filter(i => i.nama.toLowerCase().includes(filter.toLowerCase()) || i.asal.toLowerCase().includes(filter.toLowerCase()))
+                .forEach(i => {
+                    const badge = i.asal === "Indonesia" ? '<span class="badge bg-success ms-1" style="font-size:0.5rem;">Local Premium</span>' : '';
+                    gGrid.innerHTML += `
+                        <div class="col-6 col-md-4 col-xl-3">
+                            <div class="product-card p-2 shadow-sm" onclick="selectItem('${i.nama}')">
+                                <p class="mb-1 text-primary fw-bold small" style="font-size:0.7rem;">${i.asal} ${badge}</p>
+                                <h6 class="fw-bold mb-0 small">${i.nama}</h6>
                             </div>
                         </div>
-                    </div>
-                `;
-            });
+                    `;
+                });
         }
 
-        function globalSearch() {
-            renderView(document.getElementById('searchInput').value);
-        }
+        function globalFilter() { render(document.getElementById('mainSearch').value); }
 
         function selectItem(name) {
-            const item = items.find(i => i.nama === name);
-            document.getElementById('vName').value = item.nama;
-            document.getElementById('vOrigin').value = item.asal;
-            document.getElementById('vDetail').innerText = item.detail;
-            alert("Sistem: Data " + name + " berhasil dimuat ke Verification Center.");
+            const i = items.find(x => x.nama === name);
+            document.getElementById('vItem').value = i.nama;
+            document.getElementById('vPrice').value = i.harga;
+            document.getElementById('vOrigin').value = i.asal;
+            recalc();
         }
 
-        function finalizeTransaction() {
-            const n = document.getElementById('vName').value;
+        function recalc() {
+            const p = document.getElementById('vPrice').value || 0;
+            const v = document.getElementById('vVol').value || 0;
+            const sub = p * v;
+            const tax = sub * 0.01;
+            const grand = sub + tax;
+
+            document.getElementById('resSub').innerText = "$" + sub.toLocaleString();
+            document.getElementById('resTax').innerText = "$" + tax.toLocaleString();
+            document.getElementById('resTotal').innerText = "$" + grand.toLocaleString();
+        }
+
+        function syncToDB() {
+            const n = document.getElementById('vItem').value;
             const v = document.getElementById('vVol').value;
-            if(!n || !v) { alert("Lengkapi data verifikasi!"); return; }
-            alert("SUCCESS: Transaksi " + n + " sebanyak " + v + " Ton telah ter-verifikasi aman!");
-            document.getElementById('vForm').reset();
-            document.getElementById('vDetail').innerText = "Klik salah satu produk untuk melihat detail spesifikasi perdagangan.";
+            const t = document.getElementById('tradeType').value;
+            const o = document.getElementById('vOrigin').value;
+            const d = document.getElementById('vDest').value;
+            const g = document.getElementById('resTotal').innerText;
+
+            if(!n || v <= 0) { alert("Lengkapi data transaksi!"); return; }
+
+            const batch = "#DB-" + Math.floor(Math.random()*9000+1000);
+            const row = document.getElementById('dbLog').insertRow(0);
+            row.innerHTML = `
+                <td><small class="fw-bold">${batch}</small></td>
+                <td><span class="badge ${t === 'EKSPOR' ? 'bg-warning text-dark' : 'bg-info'}">${t}</span></td>
+                <td>${n}</td>
+                <td class="small">${o} &rarr; ${d}</td>
+                <td class="fw-bold text-success">${g}</td>
+                <td><span class="text-success small fw-bold"><i class="fa-solid fa-check"></i> SYNCED</span></td>
+            `;
+
+            totalT++; totalV += parseInt(v);
+            document.getElementById('statTotal').innerText = totalT;
+            document.getElementById('statVol').innerHTML = totalV + " <span class='h6 text-muted'>Ton</span>";
+            
+            alert("Transaksi " + batch + " Berhasil Dicatat!");
+            document.getElementById('tradeForm').reset(); recalc();
         }
 
-        renderView();
+        render();
     </script>
 </body>
 </html>
